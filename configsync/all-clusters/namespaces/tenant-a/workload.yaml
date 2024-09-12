@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-emitter
+  namespace: tenant-a
+  labels:
+    app: log-emitter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-emitter
+  template:
+    metadata:
+      labels:
+        app: log-emitter
+    spec:
+      containers:
+      - name: log-emitter
+        image: centos
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/bash"]
+        args:
+        - -c
+        - |
+          while true; do
+            echo "$(date) - Emitting log every minute"
+            sleep 60
+          done
